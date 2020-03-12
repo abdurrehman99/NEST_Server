@@ -10,7 +10,6 @@ export class PersonService {
     private persons :Person[] = [];
 
     constructor(@InjectModel('Employee') private readonly personModel :Model<Person>){
-       
     }
 
     async addPerson(personDTO : PersonDTO){
