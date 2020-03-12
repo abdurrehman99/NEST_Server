@@ -7,11 +7,18 @@ import { Validate } from 'class-validator';
 export class UserController {
     constructor(private userService : UserService ) {}
 
-    @Post('adduser')
+    @Post('register')
     @UsePipes(ValidationPipe)
-    async addUser(@Body() userDTO :UserDTO ) {
-        await this.userService.addUser(userDTO)
-
-        return userDTO;
+    async signUp(@Body() userDTO :UserDTO ) {
+        const result = await this.userService.signUp(userDTO)
+        return result;
     }
+
+    @Post('login')
+    @UsePipes(ValidationPipe)
+    async signIn(@Body() userDTO :UserDTO ) {
+        const result = await this.userService.signIn(userDTO)
+        return result;
+    }
+
 }

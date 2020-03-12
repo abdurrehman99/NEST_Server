@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from "./user.model";
@@ -13,7 +13,7 @@ export class UserService {
         private jwtService : JwtService,
     ){}
 
-    async addUser( userDTO : UserDTO){
+    async signUp( userDTO : UserDTO){
         const newUser = new this.userModel({
             username : userDTO.username,
             password : userDTO.password,
@@ -22,7 +22,18 @@ export class UserService {
         return result as User;
     }
 
-    async authUser ( userDTO : UserDTO){
+    async signIn ( userDTO : UserDTO){
+        this.userModel.findOne({ username : userDTO.username, password : userDTO.password }, (user)=>{
+            if(!user){
+                throw new UnauthorizedException('Invalid Username Or Passowrd !')
+                
+            }
+            else{
+                const payload = userDTO.username;
+                const token = this.jwtService.sign(payload);
+                return token 
+            }
+        })
         
     }
 }
