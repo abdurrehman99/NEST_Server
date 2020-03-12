@@ -31,7 +31,6 @@ export class PersonService {
         });
 
         const result = await person.save();
-        // this.persons.push(person);
         console.log(result);
         return result.id as string ;
     }
@@ -68,7 +67,6 @@ export class PersonService {
     }
 
     async updatePerson(id :string ,personDTO : PersonDTO) {
-        // const person = this.getPersonById(id);
         await this.personModel.findOneAndUpdate({ _id : id },{ 
             name : personDTO.name,
             age : personDTO.age,

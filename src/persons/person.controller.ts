@@ -42,6 +42,7 @@ export class PersonController {
         let result = await this.personService.deletePerson(id);
     }
 
+
     @Put(':id')
     @UsePipes(ValidationPipe)
     async updatePerson(@Param('id') id :string, @Body() personDTO :PersonDTO) {
