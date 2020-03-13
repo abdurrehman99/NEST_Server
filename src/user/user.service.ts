@@ -23,17 +23,13 @@ export class UserService {
     }
 
     async signIn ( userDTO : UserDTO){
-        this.userModel.findOne({ username : userDTO.username, password : userDTO.password }, (user)=>{
-            if(!user){
-                throw new UnauthorizedException('Invalid Username Or Passowrd !')
-                
-            }
-            else{
-                const payload = userDTO.username;
-                const token = this.jwtService.sign(payload);
-                return token 
-            }
-        })
+        const found = await this.userModel.findOne({ username : userDTO.username, password : userDTO.password })
         
-    }
+        if(found){
+            const payload = userDTO.username;
+            const token = this.jwtService.sign(payload);
+            return { token } 
+        }
+        else throw new UnauthorizedException('Invalid Username Or Passowrd !')   
+        }
 }

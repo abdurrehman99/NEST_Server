@@ -10,13 +10,13 @@ import { PassportModule } from '@nestjs/passport'
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: 'topSecret',
-      signOptions: {
-        expiresIn: 3600
-      },
+      // signOptions: {
+      //   expiresIn: 3600
+      // },
     }),
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])
   ],
-  controllers: [UserController],
+  controllers: [UserController], 
   providers: [UserService]
 })
 export class UserModule { }

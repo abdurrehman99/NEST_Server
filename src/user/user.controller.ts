@@ -18,7 +18,7 @@ export class UserController {
     @UsePipes(ValidationPipe)
     async signIn(@Body() userDTO :UserDTO ) {
         const result = await this.userService.signIn(userDTO)
-        return result;
+        return result; 
     }
 
 }
