@@ -14,12 +14,18 @@ export class UserService {
     ){}
 
     async signUp( userDTO : UserDTO){
-        const newUser = new this.userModel({
-            username : userDTO.username,
-            password : userDTO.password,
-        }); 
-        let result  = await newUser.save()
-        return result as User;
+        const found = await this.userModel.findOne({ username : userDTO.username })
+        if(!found){
+            const newUser = new this.userModel({
+                username : userDTO.username,
+                password : userDTO.password,
+            }); 
+            let result  = await newUser.save()
+            return result as User;
+        }
+        else{
+            throw new UnauthorizedException('User already exist !')
+        }
     }
 
     async signIn ( userDTO : UserDTO){
@@ -31,5 +37,5 @@ export class UserService {
             return { token } 
         }
         else throw new UnauthorizedException('Invalid Username Or Passowrd !')   
-        }
+    }
 }
