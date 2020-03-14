@@ -3,7 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from "./user.model";
 import { UserDTO } from './dto/user-filter.dto';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, JwtOptionsFactory } from '@nestjs/jwt';
+import { JwtPayload } from './jwt-payload.interface';
  
 @Injectable()
 export class UserService {
@@ -32,7 +33,9 @@ export class UserService {
         const found = await this.userModel.findOne({ username : userDTO.username, password : userDTO.password })
         
         if(found){
-            const payload = userDTO.username;
+            const payload :JwtPayload = {
+                username : userDTO.username
+            }
             const token = this.jwtService.sign(payload);
             return { token } 
         }
